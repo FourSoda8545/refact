@@ -1,4 +1,4 @@
-// git commit -m "|| upd: v1.0.2 || FourSoda8545 || act. base web ||"
+//      "|| fix || v1.2.1 || FourSoda8545 || maquillada web ||"
 
 import * as THREE from 'https://esm.sh/three@0.160.0';
 import { OrbitControls } from 'https://esm.sh/three@0.160.0/examples/jsm/controls/OrbitControls.js';

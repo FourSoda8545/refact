@@ -1,84 +1,99 @@
-
+<!--   "|| upd || v1.2.1 || FourSoda8545 || maquillada web ||"    -->
 
 <!doctype html>
 <html lang="es">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Silicon Core // Hardware Architecture Teardown</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Silicon Core // Disassemble Hardware Architecture</title>
+<link rel="shortcut icon" href="/img/lichi.jpg" type="image/x-icon"> <!-- logo de la página-->
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&display=swap">
+
 <link rel="stylesheet" href="css/styles.css">
 <script type="module" src="js/app.js"></script>
-</head>
-<body>
 
-<main class="viewer" data-state="ready">
-  <!-- Canvas para el escenario 3D -->
-  <canvas tabindex="0" aria-label="3D model of Silicon Core architecture. Drag to orbit, scroll to zoom, click a part to configure."></canvas>
-
-  <!-- Panel de Información General (Placard) -->
-  <header class="placard">
-    <p class="maker">SILICON CORE SYSTEMS</p>
-    <h1>ARQUITECTURA PC</h1>
-    <div class="scheme">
-      <label for="scheme">Perfil de Rendimiento</label>
-      <select id="scheme">
-        <option value="stock">Modo Estándar (Factory)</option>
-        <option value="oc">Overclocked Extreme</option>
-        <option value="eco">Eco-Silence Mode</option>
-      </select>
-      <p class="scheme-info">Telemetría y bus de datos en tiempo real con FastAPI.</p>
-    </div>
-    <dl class="specs">
-      <div><dt>Socket</dt><dd>LGA 1700</dd></div>
-      <div><dt>Bus PCIe</dt><dd>Gen 5.0 x16</dd></div>
-      <div><dt>Chipset</dt><dd>Intel Z790</dd></div>
-      <div><dt>Memoria</dt><dd>64GB DDR5</dd></div>
-    </dl>
-  </header>
-
-  <!-- Panel lateral de detalles del componente seleccionado -->
-  <aside class="part-info" id="customizerPanel" aria-labelledby="part-label" hidden>
-    <p class="part-group" id="panelTitle">CONFIGURAR COMPONENTE</p>
-    <div id="panelContent">
-      <p class="part-note">Selecciona una capa o componente del sistema para inspeccionar sus registros.</p>
-    </div>
-    <button class="icon-button close" type="button" onclick="closeCustomizer()" aria-label="Cerrar panel">
-      ✕
-    </button>
-  </aside>
-
-  <!-- Barra inferior de Despiece (Teardown Slider) -->
-  <section class="teardown" aria-labelledby="teardown-label">
-    <div class="teardown-head">
-      <label id="teardown-label" for="teardown">Despiece de Hardware (Teardown)</label>
-      <output class="teardown-stage" for="teardown">Ensamblado</output>
-    </div>
-    <!-- Slider interactivo de despiece -->
-    <input id="teardown" type="range" min="0" max="1000" step="1" value="0">
+  </head>
+  
+  <body>
     
-    <!-- Etapas de despiece inferiores estilo CodePen -->
-    <ol class="stage-ticks">
-      <li data-stage="1"><span>Propeller / CPU</span></li>
-      <li data-stage="2"><span>Cowling / Disipador</span></li>
-      <li data-stage="3"><span>Canopy / Tapa VRM</span></li>
-      <li data-stage="4"><span>Control / Buses</span></li>
-      <li data-stage="5"><span>Skin / PCB Base</span></li>
-      <li data-stage="6"><span>Wings / Ranuras PCIe</span></li>
-      <li data-stage="7"><span>Powerplant / PSU</span></li>
-      <li data-stage="8"><span>Systems / RAM & NVMe</span></li>
-      <li data-stage="9"><span>Landing Gear / Chasis</span></li>
-    </ol>
-  </section>
+    <main class="viewer" data-state="ready">
+    
+      <!-- Canvas para el escenario 3D -->
+      <canvas tabindex="0" aria-label="3D model of Silicon Core architecture. Drag to orbit, scroll to zoom, click a part to configure."></canvas>
+    
+      <!-- Panel de Información General (Placard) -->
+      <header class="placard">
+        <p class="maker">SILICON CORE SYSTEMS</p>
+        <h1>ARQUITECTURA PC</h1>
+        
+        <div class="scheme">
+        <label for="scheme">Perfil de Rendimiento</label>
+        <select id="scheme">
+          <option value="stock">Modo Estándar (Factory)</option>
+          <option value="oc">Overclocked Extreme</option>
+          <option value="eco">Eco-Silence Mode</option>
+        </select>
+        <p class="scheme-info">Telemetría y bus de datos en tiempo real con FastAPI.</p>
+      </div>
+      
+      <dl class="specs">
+        <div><dt>Socket</dt><dd>LGA 1700</dd></div>
+        <div><dt>Bus PCIe</dt><dd>Gen 5.0 x16</dd></div>
+        <div><dt>Chipset</dt><dd>Intel Z790</dd></div>
+        <div><dt>Memoria</dt><dd>64GB DDR5</dd></div>
+      </dl>
+    </header>
+    
+  <!-- Panel lateral de detalles del componente seleccionado -->
+    <aside class="part-info" id="customizerPanel" aria-labelledby="part-label" hidden>
+      <p class="part-group" id="panelTitle">CONFIGURAR COMPONENTE</p>
+      <div id="panelContent">
+        <p class="part-note">Selecciona una capa o componente del sistema para inspeccionar sus registros.</p>
+      </div>
+      
+      <button class="icon-button close" type="button" onclick="closeCustomizer()" aria-label="Cerrar panel">
+        ✕
+      </button>
+    </aside>
 
-  <p class="hint">Arrastra para rotar &middot; Scroll para hacer zoom &middot; Clic en un componente</p>
-</main>
+    <!-- Barra inferior de Despiece (Teardown Slider) -->
+    <section class="teardown" aria-labelledby="teardown-label">
+      <div class="teardown-head">
+        <label id="teardown-label" for="teardown">Despiece de Hardware (Teardown)</label>
+        <output class="teardown-stage" for="teardown">Ensamblado</output>
+      </div>
+    
+      <!-- Slider interactivo de despiece -->
+      <input id="teardown" type="range" min="0" max="1000" step="1" value="0">
+      
+      <!-- Etapas de despiece inferiores estilo CodePen -->
+      <ol class="stage-ticks">
+        <li data-stage="1"><span>Propeller / CPU</span></li>
+        <li data-stage="2"><span>Cowling / Disipador</span></li>
+        <li data-stage="3"><span>Canopy / Tapa VRM</span></li>
+        <li data-stage="4"><span>Control / Buses</span></li>
+        <li data-stage="5"><span>Skin / PCB Base</span></li>
+        <li data-stage="6"><span>Wings / Ranuras PCIe</span></li>
+        <li data-stage="7"><span>Powerplant / PSU</span></li>
+        <li data-stage="8"><span>Systems / RAM & NVMe</span></li>
+        <li data-stage="9"><span>Landing Gear / Chasis</span></li>
+      </ol>
+    </section>
+
+    <p class="hint">Arrastra para rotar &middot; Scroll para hacer zoom &middot; Clic en un componente</p>
+  
+  </main>
+  
+  <footer>                   <!-- PIE DE PÁGINA -->
+    <p class="footer">All rights reserved. &copy; FourSoda8545 | 2o2 2026</p>
+  </footer>
 
 </body>
 </html>
-
-
 
 
