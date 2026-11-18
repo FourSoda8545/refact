@@ -1,107 +1,339 @@
-:root {
-    --bg-color: #050507;
-    --neon-cyan: #00f0ff;
+
+
+@layer reset, tokens, base, layout, components;
+
+@layer reset {
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+  body, h1, h2, h3, p, dl, dd, ol, ul {
+    margin: 0;
+  }
+  ol, ul {
+    padding: 0;
+    list-style: none;
+  }
+  button {
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+  }
+}
+
+@layer tokens {
+  :root {
+    color-scheme: dark;
+    --neon-cyan: #00f3ff;
     --neon-green: #00ff66;
-    --border-color: #1f242d;
-    --panel-bg: #0b0f19;
-}  
+    --color-text: #e2e8f0;
+    --color-muted: #8892b0;
+    --color-faint: #4a5568;
+    --color-panel: rgba(10, 15, 25, 0.85);
+    --color-panel-solid: #090d16;
+    --color-line: rgba(0, 243, 255, 0.18);
+    --color-line-strong: rgba(0, 243, 255, 0.45);
+    
+    --stage-bg: 
+      radial-gradient(circle at 50% 20%, rgba(0, 243, 255, 0.07), transparent 60%),
+      radial-gradient(circle at 80% 80%, rgba(0, 255, 102, 0.04), transparent 50%),
+      linear-gradient(135deg, #05070b 0%, #0b0f19 100%);
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body {
-    background-color: var(--bg-color);
-    color: #e2e8f0;
-    font-family: 'Courier New', Courier, monospace;
-    overflow-x: hidden;
+    --font-display: "Barlow Condensed", "Arial Narrow", system-ui, sans-serif;
+    --font-body: "Barlow", system-ui, sans-serif;
+    --target-min: 2.75rem;
+  }
 }
 
-/* El contenedor mide 400vh para dar espacio al scroll */
-.scrolly-container {
-    height: 400vh;
-    position: relative;
-}
-
-.sticky-stage {
-    position: sticky;
-    top: 0;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    perspective: 1200px;
+@layer base {
+  body {
+    min-block-size: 100dvh;
+    font: 0.9375rem / 1.5 var(--font-body);
+    color: var(--color-text);
+    background: var(--stage-bg);
     overflow: hidden;
+  }
+
+  a {
+    color: var(--neon-cyan);
+  }
+
+  :where(a, button, input, select, canvas):focus-visible {
+    outline: 2px solid var(--neon-cyan);
+    outline-offset: 2px;
+  }
 }
 
-.stage-header {
-    position: absolute;
-    top: 30px;
-    text-align: center;
-    z-index: 10;
-}
-.stage-header h1 { color: var(--neon-cyan); font-size: 1.5rem; letter-spacing: 2px; }
-.stage-header p { color: #8892b0; font-size: 0.9rem; margin-top: 5px; }
-
-/* Escenario 3D donde flotan las capas */
-.pc-assembly {
+@layer layout {
+  .viewer {
     position: relative;
-    width: 600px;
-    height: 400px;
-    transform-style: preserve-3d;
-    transform: rotateX(15deg) rotateY(-25deg);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    grid-template-areas:
+      "placard tools"
+      "motion info"
+      "teardown teardown";
+    gap: 1rem;
+    block-size: 100dvh;
+    padding: 1.25rem;
+    overflow: hidden;
+
+    > canvas {
+      position: absolute;
+      inset: 0;
+      inline-size: 100%;
+      block-size: 100%;
+      touch-action: none;
+      z-index: 1;
+    }
+  }
 }
 
-.hw-layer {
+@layer components {
+  /* Panel de información principal (Placard) */
+  .placard {
+    grid-area: placard;
+    position: relative;
+    z-index: 2;
+    justify-self: start;
+    display: grid;
+    gap: 0.35rem;
+    max-inline-size: 24rem;
+    padding: 1.25rem;
+    border: 1px solid var(--color-line);
+    border-radius: 10px;
+    background: var(--color-panel);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+
+    .maker {
+      font: 600 0.75rem / 1.2 var(--font-display);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--neon-cyan);
+    }
+
+    h1 {
+      font: 700 clamp(1.5rem, 1.2vw + 1rem, 2.2rem) / 1 var(--font-display);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: #fff;
+      text-shadow: 0 0 10px rgba(0, 243, 255, 0.3);
+    }
+
+    .scheme {
+      display: grid;
+      gap: 0.35rem;
+      margin-block-start: 0.75rem;
+
+      label {
+        font: 600 0.75rem / 1.2 var(--font-display);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--color-muted);
+      }
+
+      select {
+        min-block-size: 2.5rem;
+        padding-inline: 0.75rem;
+        border: 1px solid var(--color-line);
+        border-radius: 6px;
+        background: #05070b;
+        color: var(--neon-cyan);
+        font: inherit;
+        font-weight: 600;
+        cursor: pointer;
+        transition: border-color 0.2s;
+
+        &:hover {
+          border-color: var(--neon-cyan);
+        }
+      }
+
+      .scheme-info {
+        font-size: 0.8rem;
+        color: var(--color-muted);
+      }
+    }
+
+    .specs {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.5rem 1rem;
+      margin-block-start: 0.75rem;
+      padding-block-start: 0.75rem;
+      border-block-start: 1px solid var(--color-line);
+
+      dt {
+        font: 600 0.7rem / 1.2 var(--font-display);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--color-muted);
+      }
+
+      dd {
+        font-size: 0.85rem;
+        font-weight: 500;
+        color: #fff;
+        font-variant-numeric: tabular-nums;
+      }
+    }
+  }
+
+  /* Panel lateral de personalización / componentes */
+  .part-info {
+    grid-area: info;
+    position: relative;
+    z-index: 2;
+    justify-self: end;
+    align-self: start;
+    inline-size: 22rem;
+    padding: 1.25rem;
+    border: 1px solid var(--neon-cyan);
+    border-radius: 10px;
+    background: var(--color-panel-solid);
+    box-shadow: 0 0 20px rgba(0, 243, 255, 0.15);
+
+    &[hidden] {
+      display: none;
+    }
+
+    .part-group {
+      font: 600 0.75rem / 1.2 var(--font-display);
+      letter-spacing: 0.15em;
+      color: var(--neon-cyan);
+      text-transform: uppercase;
+    }
+
+    .part-note {
+      margin-block: 0.75rem;
+      font-size: 0.85rem;
+      color: var(--color-text);
+    }
+
+    .close {
+      position: absolute;
+      inset-block-start: 0.75rem;
+      inset-inline-end: 0.75rem;
+      background: transparent;
+      border: 1px solid var(--color-line);
+      border-radius: 50%;
+      inline-size: 2rem;
+      block-size: 2rem;
+      display: grid;
+      place-items: center;
+      color: var(--color-muted);
+      transition: all 0.2s;
+
+      &:hover {
+        background: var(--neon-cyan);
+        color: #000;
+        border-color: var(--neon-cyan);
+      }
+    }
+  }
+
+  /* Sección inferior de Despiece (Teardown Bar) */
+  .teardown {
+    grid-area: teardown;
+    position: relative;
+    z-index: 2;
+    display: grid;
+    gap: 0.5rem;
+    padding: 1rem 1.5rem;
+    border: 1px solid var(--color-line);
+    border-radius: 12px;
+    background: var(--color-panel);
+    backdrop-filter: blur(12px);
+
+    .teardown-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--font-display);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+
+      label {
+        color: var(--neon-cyan);
+        font-weight: 700;
+      }
+
+      .teardown-stage {
+        color: var(--color-muted);
+        font-weight: 600;
+      }
+    }
+
+    /* Slider de rango personalizado */
+    input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      inline-size: 100%;
+      height: 6px;
+      background: #1a2333;
+      border-radius: 3px;
+      outline: none;
+
+      &::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: var(--neon-cyan);
+        cursor: pointer;
+        box-shadow: 0 0 10px var(--neon-cyan);
+        transition: transform 0.1s;
+
+        &:hover {
+          transform: scale(1.2);
+        }
+      }
+    }
+
+    /* Marcas de etapas inferiores */
+    .stage-ticks {
+      display: grid;
+      grid-template-columns: repeat(9, minmax(0, 1fr));
+      gap: 4px;
+      margin-block-start: 0.25rem;
+
+      li {
+        font-family: var(--font-display);
+        font-size: 0.65rem;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: var(--color-faint);
+        text-align: center;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        border-top: 2px solid var(--color-line);
+        padding-top: 4px;
+
+        &.active {
+          color: var(--neon-cyan);
+          border-top-color: var(--neon-cyan);
+        }
+      }
+    }
+  }
+
+  .hint {
     position: absolute;
-    inset: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-    transition: transform 0.1s ease-out;
+    inset-block-start: 1.25rem;
+    inset-inline-end: 1.5rem;
+    font-size: 0.75rem;
+    color: var(--color-muted);
+    letter-spacing: 0.05em;
+    pointer-events: none;
+    z-index: 2;
+  }
 }
 
-.part-card {
-    background: var(--panel-bg);
-    border: 1px solid var(--border-color);
-    padding: 20px 30px;
-    border-radius: 6px;
-    color: #fff;
-    font-weight: bold;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.8);
-    transition: all 0.3s ease;
-}
 
-.part-card.interactive {
-    border-color: var(--neon-cyan);
-    cursor: pointer;
-}
-.part-card.interactive:hover {
-    background: rgba(0, 240, 255, 0.1);
-    box-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
-    transform: scale(1.05);
-}
 
-/* Panel de personalización lateral oculto por defecto */
-.customizer-panel {
-    position: fixed;
-    right: -400px;
-    top: 0;
-    width: 350px;
-    height: 100vh;
-    background: var(--panel-bg);
-    border-left: 1px solid var(--neon-cyan);
-    padding: 30px;
-    z-index: 100;
-    transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    box-shadow: -20px 0 50px rgba(0,0,0,0.9);
-}
-.customizer-panel.active { right: 0; }
-.close-btn {
-    background: transparent;
-    border: 1px solid #ff4444;
-    color: #ff4444;
-    padding: 5px 10px;
-    cursor: pointer;
-    font-family: inherit;
-    margin-bottom: 20px;
-}
+
+
