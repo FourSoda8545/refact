@@ -7,7 +7,7 @@ import random
 
 app = FastAPI(title="Silicon Core API", version="1.0")
 
-# Permitir tu dominio de GitHub Pages (reemplaza 'tu-usuario' con tu usuario real)
+# dominio de GitHub Pages
 origins = [
     "https://foursoda8545.github.io",
     "http://127.0.0.1:5500", # Para desarrollo local

@@ -1,4 +1,4 @@
-
+// git commit -m "|| upd: v1.0.2 || FourSoda8545 || act. base web ||"
 
 // Configuración dinámica de URLs para entorno local y producción (Render)
 const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
