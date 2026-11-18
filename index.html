@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Silicon Core | Explosive Hardware Explorer</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+    <!-- Contenedor de Scroll Largo para el efecto NASA -->
+    <div class="scrolly-container">
+        <div class="sticky-stage">
+            <header class="stage-header">
+                <h1>SILICON CORE // EXPLODED ARCHITECTURE</h1>
+                <p>Haz scroll para desarmar el sistema y haz clic en cada componente para modificarlo.</p>
+            </header>
+
+            <!-- Escenario 3D de la PC -->
+            <div class="pc-assembly" id="pcAssembly">
+                <!-- Capa 1: Panel Lateral / Chasis -->
+                <div class="hw-layer" data-layer="case" style="--z-offset: 0px;">
+                    <div class="part-card">Chasis ATX / Vidrio Templado</div>
+                </div>
+                <!-- Capa 2: Refrigeración Líquida / Cooler -->
+                <div class="hw-layer" data-layer="cooler" style="--z-offset: 120px;">
+                    <div class="part-card interactive" onclick="openCustomizer('cooler')">Cooler AIO 360mm 🔵</div>
+                </div>
+                <!-- Capa 3: CPU & RAM -->
+                <div class="hw-layer" data-layer="cpu-ram" style="--z-offset: 240px;">
+                    <div class="part-card interactive" onclick="openCustomizer('cpu')">CPU: AMD Ryzen 7 ⚙️</div>
+                    <div class="part-card interactive" onclick="openCustomizer('ram')">RAM: 32GB DDR5 ⚡</div>
+                </div>
+                <!-- Capa 4: Tarjeta Gráfica (GPU) -->
+                <div class="hw-layer" data-layer="gpu" style="--z-offset: 380px;">
+                    <div class="part-card interactive" onclick="openCustomizer('gpu')">GPU: RTX 4070 Ti 🎮</div>
+                </div>
+                <!-- Capa 5: Placa Base (Motherboard) & NVMe -->
+                <div class="hw-layer" data-layer="motherboard" style="--z-offset: 520px;">
+                    <div class="part-card">Motherboard X670 Chipset 🧬</div>
+                    <div class="part-card interactive" onclick="openCustomizer('nvme')">NVMe Gen5 2TB 💾</div>
+                </div>
+            </div>
+
+            <!-- Panel Lateral de Personalización (Interactividad) -->
+            <aside class="customizer-panel" id="customizerPanel">
+                <button class="close-btn" onclick="closeCustomizer()">[X] CERRAR</button>
+                <h3 id="panelTitle">Configurar Componente</h3>
+                <div id="panelContent">
+                    <!-- Opciones cargadas dinámicamente desde Python -->
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
