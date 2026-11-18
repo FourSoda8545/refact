@@ -1,4 +1,4 @@
-//      "|| fix || v1.2.1 || FourSoda8545 || maquillada web ||"
+//      "|| fix || v1.2.1 || FourSoda8545 || Actualización y fix web ||"
 
 import * as THREE from 'https://esm.sh/three@0.160.0';
 import { OrbitControls } from 'https://esm.sh/three@0.160.0/examples/jsm/controls/OrbitControls.js';
