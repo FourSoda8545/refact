@@ -6,7 +6,7 @@ window.addEventListener('scroll', () => {
     
     // Progreso del scroll de 0 a 1
     const progress = Math.max(0, Math.min(1, scrollTop / scrollHeight));
-
+  
     // Desplazar cada capa en el eje Z multiplicando por su offset base
     const layers = document.querySelectorAll('.hw-layer');
     layers.forEach((layer, index) => {
