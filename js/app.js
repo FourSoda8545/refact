@@ -1,4 +1,4 @@
-//      "|| fix || v1.2.1 || FourSoda8545 || Actualización y fix web ||"
+//      "|| fix || v1.2.2 || FourSoda8545 || Actualización y fix web ||"
 
 import * as THREE from 'https://esm.sh/three@0.160.0';
 import { OrbitControls } from 'https://esm.sh/three@0.160.0/examples/jsm/controls/OrbitControls.js';
@@ -262,8 +262,8 @@ function initTelemetrySocket() {
       if (box) {
         box.innerHTML = `Temp CPU: <b>${telemetry.cpu_temp || '45°C'}</b> | Carga GPU: <b>${telemetry.gpu_load || '18%'}</b>`;
       }
-    } catch (e) {
-      // Ignorar paquetes no JSON
+    } catch (e) {     // Ignorar paquetes no JSON
+      
     }
   };
 
